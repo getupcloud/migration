@@ -9,6 +9,8 @@ $postgreport = getenv('OPENSHIFT_POSTGRESQL_DB_PORT');
 $postgreusername = getenv('OPENSHIFT_POSTGRESQL_DB_USERNAME');
 $postgrepasswd = getenv('OPENSHIFT_POSTGRESQL_DB_PASSWORD');
 
+$mongourl = getenv('OPENSHIFT_MONGODB_DB_URL')
+
 $db = getenv('OPENSHIFT_APP_NAME');
 
 
@@ -47,4 +49,23 @@ if ($postgrehost) {
 	pg_close($dbconn);
 }
 
+if ($mongourl) {
+	// connect
+$m = new MongoClient("$mongourl");
+
+// select a database
+$db = $m->$db;
+
+$collection = $db->teste
+
+$cursor = $collection->find();
+
+if ($cursor) {
+	printf("Collection test is ok. %d rows\n", count($cursor)
+} else  {
+	printf("Failed check mongodb cartridge migration!!!! %s\n", vardump($db->lastError));
+
+}
+
+}
 ?>

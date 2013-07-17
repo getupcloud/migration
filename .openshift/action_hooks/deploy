@@ -28,6 +28,13 @@ while [ $RETRY -gt 0 ] ; do
         break
     fi
 
+    if [ -n "$OPENSHIFT_MONGODB_DB_HOST" ]
+    then
+      echo "Postgresql database server found at $OPENSHIFT_MONGODB_DB_HOST. initializing..."
+      sleep 5
+      break
+    fi
+
     sleep 1
     RETRY=$(( $RETRY - 1 ))
 done
@@ -47,4 +54,14 @@ elif [ -n "$OPENSHIFT_POSTGRESQL_DB_HOST" ]; then
   echo
   echo "Deploying postgresql schema..."
   /usr/bin/psql -h$OPENSHIFT_POSTGRESQL_DB_HOST -U$OPENSHIFT_POSTGRESQL_DB_USERNAME $WOPENSHIFT_POSTGRESQL_DB_PASSWORD -c "create table test ( id INT, data VARCHAR(100) );" $OPENSHIFT_APP_NAME && touch $OPENSHIFT_DATA_DIR/.postgresql_schema_deployed
+fi
+
+if [ -f $OPENSHIFT_DATA_DIR/.mongodb_schema_deployed ]; then 
+  echo "MongoDB already deployed!"
+elif [ -n "$OPENSHIFT_MONGODB_DB_HOST" ]; then
+  echo
+  echo "Deploying MongoDB schema..."
+  mongo $OPENSHIFT_MONGODB_DB_HOST/$OPENSHIFT_APP_NAME -u$OPENSHIFT_MONGODB_DB_USERNAME -p $OPENSHIFT_MONGODB_DB_PASSWORD <<EOF
+db.createCollection("test");
+EOF
 fi
