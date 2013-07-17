@@ -9,7 +9,7 @@ $postgreport = getenv('OPENSHIFT_POSTGRESQL_DB_PORT');
 $postgreusername = getenv('OPENSHIFT_POSTGRESQL_DB_USERNAME');
 $postgrepasswd = getenv('OPENSHIFT_POSTGRESQL_DB_PASSWORD');
 
-$mongourl = getenv('OPENSHIFT_MONGODB_DB_URL')
+$mongourl = getenv('OPENSHIFT_MONGODB_DB_URL');
 
 $db = getenv('OPENSHIFT_APP_NAME');
 
