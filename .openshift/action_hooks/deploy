@@ -33,20 +33,18 @@ while [ $RETRY -gt 0 ] ; do
 done
 
 
-if [ -f $OPENSHIFT_DATA_DIR/.mysql_schema_deployed ]
-	then echo "Mysql already deployed!"
-else 
-	echo
-	echo "Deploying mysql schema..."
-	/usr/bin/mysql -u "$OPENSHIFT_MYSQL_DB_USERNAME" --password="$OPENSHIFT_MYSQL_DB_PASSWORD" -h "$OPENSHIFT_MYSQL_DB_HOST" -P "$OPENSHIFT_MYSQL_DB_PORT" -e "create table test ( id INT, data VARCHAR(100) );" "$OPENSHIFT_APP_NAME" && touch $OPENSHIFT_DATA_DIR/.mysql_schema_deployed
+if [ -f $OPENSHIFT_DATA_DIR/.mysql_schema_deployed ]; then
+  echo "Mysql already deployed!"
+elif [ -n "$OPENSHIFT_MYSQL_DB_HOST" ]; then
+  echo
+  echo "Deploying mysql schema..."
+  /usr/bin/mysql -u "$OPENSHIFT_MYSQL_DB_USERNAME" --password="$OPENSHIFT_MYSQL_DB_PASSWORD" -h "$OPENSHIFT_MYSQL_DB_HOST" -P "$OPENSHIFT_MYSQL_DB_PORT" -e "create table test ( id INT, data VARCHAR(100) );" "$OPENSHIFT_APP_NAME" && touch $OPENSHIFT_DATA_DIR/.mysql_schema_deployed
 fi
 
-if [ -f $OPENSHIFT_DATA_DIR/.postgresql_schema_deployed ]
-	then echo "Postgresql already deployed!"
-else 
-	echo
-	echo "Deploying postgresql schema..."
-	/usr/bin/psql -h$OPENSHIFT_POSTGRESQL_DB_HOST -U$OPENSHIFT_POSTGRESQL_DB_USERNAME $WOPENSHIFT_POSTGRESQL_DB_PASSWORD -c "create table test ( id INT, data VARCHAR(100) );" $OPENSHIFT_APP_NAME && touch $OPENSHIFT_DATA_DIR/.postgresql_schema_deployed
+if [ -f $OPENSHIFT_DATA_DIR/.postgresql_schema_deployed ]; then 
+  echo "Postgresql already deployed!"
+elif [ -n "$OPENSHIFT_POSTGRESQL_DB_HOST" ]; then
+  echo
+  echo "Deploying postgresql schema..."
+  /usr/bin/psql -h$OPENSHIFT_POSTGRESQL_DB_HOST -U$OPENSHIFT_POSTGRESQL_DB_USERNAME $WOPENSHIFT_POSTGRESQL_DB_PASSWORD -c "create table test ( id INT, data VARCHAR(100) );" $OPENSHIFT_APP_NAME && touch $OPENSHIFT_DATA_DIR/.postgresql_schema_deployed
 fi
-
-

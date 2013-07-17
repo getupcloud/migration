@@ -13,7 +13,7 @@ $db = getenv('OPENSHIFT_APP_NAME');
 
 
 
-if $mysqlhost {
+if ($mysqlhost) {
 
 	$mysqli=mysqli_connect("$mysqlhost","$mysqlusername","$mysqlpasswd","$db", $port);
 	// Check connection
@@ -32,7 +32,7 @@ if $mysqlhost {
 	}
 }
 
-if $postgrehost {
+if ($postgrehost) {
 	$dbconn = pg_connect("host=$postgrehost user=$postgreusername password=$postgrepasswd dbname=$db port=$postgreport")
 	  or die('Could not connect: ' . pg_last_error());
 
