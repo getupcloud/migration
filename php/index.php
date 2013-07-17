@@ -54,16 +54,16 @@ if ($mongourl) {
 $m = new MongoClient("$mongourl");
 
 // select a database
-$db = $m->$db;
 
-$collection = $db->teste
+$collection = $m->$db->test
 
-$cursor = $collection->find();
+$cursor = $collection->findOne();
 
-if ($cursor) {
+
+if (count($cursor) == 3) {
 	printf("Collection test is ok. %d rows\n", count($cursor)
 } else  {
-	printf("Failed check mongodb cartridge migration!!!! %s\n", vardump($db->lastError));
+	printf("Failed check mongodb cartridge migration!!!! %s\n", var_dump($db->lastError));
 
 }
 

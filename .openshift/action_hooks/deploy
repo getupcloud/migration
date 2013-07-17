@@ -30,7 +30,7 @@ while [ $RETRY -gt 0 ] ; do
 
     if [ -n "$OPENSHIFT_MONGODB_DB_HOST" ]
     then
-      echo "Postgresql database server found at $OPENSHIFT_MONGODB_DB_HOST. initializing..."
+      echo "MongoDB database server found at $OPENSHIFT_MONGODB_DB_HOST. initializing..."
       sleep 5
       break
     fi
@@ -61,7 +61,8 @@ if [ -f $OPENSHIFT_DATA_DIR/.mongodb_schema_deployed ]; then
 elif [ -n "$OPENSHIFT_MONGODB_DB_HOST" ]; then
   echo
   echo "Deploying MongoDB schema..."
-  mongo $OPENSHIFT_MONGODB_DB_HOST/$OPENSHIFT_APP_NAME -u$OPENSHIFT_MONGODB_DB_USERNAME -p $OPENSHIFT_MONGODB_DB_PASSWORD <<EOF
+  /usr/bin/mongo $OPENSHIFT_MONGODB_DB_HOST/$OPENSHIFT_APP_NAME -u$OPENSHIFT_MONGODB_DB_USERNAME -p $OPENSHIFT_MONGODB_DB_PASSWORD <<EOF
 db.createCollection("test");
-EOF
+db.test.inser({ item: "test", qty: 1});
+EOF && touch $OPENSHIFT_DATA_DIR/.mongodb_schema_deployed
 fi
