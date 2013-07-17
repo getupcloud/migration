@@ -55,7 +55,7 @@ $m = new MongoClient("$mongourl");
 
 // select a database
 
-$collection = $m->$db->test
+$collection = $m->$db->test;
 
 $cursor = $collection->findOne();
 
