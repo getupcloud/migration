@@ -64,5 +64,6 @@ elif [ -n "$OPENSHIFT_MONGODB_DB_HOST" ]; then
   /usr/bin/mongo $OPENSHIFT_MONGODB_DB_HOST/$OPENSHIFT_APP_NAME -u$OPENSHIFT_MONGODB_DB_USERNAME -p $OPENSHIFT_MONGODB_DB_PASSWORD <<EOF
 db.createCollection("test");
 db.test.inser({ item: "test", qty: 1});
-EOF && touch $OPENSHIFT_DATA_DIR/.mongodb_schema_deployed
+EOF
+touch $OPENSHIFT_DATA_DIR/.mongodb_schema_deployed
 fi
